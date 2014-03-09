@@ -1,0 +1,6 @@
+{% for row in groups %}
+<a href="{{ url_for('.app_group', app_id=app.id, group_id=row.Group.id) }}" class="list-group-item group-item">
+    <span class="badge">{{ row.stat }}</span>
+    {{ row.Group.key }}
+</a>
+{% endfor %}

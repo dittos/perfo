@@ -1,0 +1,16 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<form method="post" action="{{ url_for('.apps_create') }}">
+    <fieldset>
+        <legend>Create new app</legend>
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+    </fieldset>
+</form>
+{% endblock %}

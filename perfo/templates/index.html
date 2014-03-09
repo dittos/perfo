@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<div class="list-group">
+{% for app in g.apps %}
+    <a href="{{ url_for('.app_index', app_id=app.id) }}" class="list-group-item">{{ app.name }}</a>
+{% endfor %}
+</div>
+
+<a href="{{ url_for('.apps_new') }}" class="btn btn-primary">Create new app</a>
+{% endblock %}

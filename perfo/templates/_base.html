@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Perfo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css">
+</head>
+<body>
+{% block body %}
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Perfo</a>
+
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if app %}{{ app.name }}{% else %}Apps{% endif %} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    {% for a in g.apps %}
+                        <li{% if a == app %} class="active"{% endif %}><a href="{{ url_for('.app_index', app_id=a.id) }}">{{ a.name }}</a></li>
+                    {% endfor %}
+                        <li class="divider"></li>
+                        <li><a href="{{ url_for('.apps_new') }}">Create new app...</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+{% block content %}
+{% endblock %}
+</div>
+{% endblock %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.11.0.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/handlebars-1.3.0.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,68 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <label>Sort by
+                    <select class="groups-sort-chooser">
+                        <option value="duration_sum">Most time consuming</option>
+                        <option value="throughput">Highest throughput</option>
+                        <option value="duration_avg">Slowest average response time</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="groups list-group"></div>
+        </div>
+    </div>
+
+    <div class="col-md-8 app-dashboard">
+        <h1>{{ app.name }}</h1>
+        <p><input type="text" readonly value="{{ app_dsn }}" class="form-control" onclick="this.select()"></p>
+    </div>
+
+    <div class="col-md-8 group-detail" style="display: none">
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+var groupsUrl = {{ url_for('.app_groups', app_id=app.id)|tojson|safe }};
+
+function loadGroups(sort) {
+    var target = $('.groups');
+    target.text('Loading...');
+    $.get(groupsUrl, {sort: sort}).then(function(html) {
+        target.html(html);
+    });
+}
+
+loadGroups('duration_sum');
+
+$('.groups-sort-chooser').prop('selectedIndex', 0).change(function() {
+    loadGroups($(this).val());
+});
+
+function loadGroup(url) {
+    $('.app-dashboard').hide();
+    var target = $('.group-detail');
+    target.show();
+    target.text('Loading...');
+    $.get(url).then(function(html) {
+        target.html(html);
+    });
+}
+$('.groups').on('click', '.group-item', function() {
+    loadGroup($(this).attr('href'));
+    return false;
+});
+$('.group-detail').on('click', '.group-detail-close', function() {
+    $('.app-dashboard').show();
+    $('.group-detail').hide();
+    return false;
+});
+</script>
+{% endblock %}
